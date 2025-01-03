@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Upload Success</title>
+        {% load static %}
+    </head>
+    <body>
+        <h1>Upload Successful</h1>
+        <h2>Uploaded Files:</h2>
+        <ul>
+            {% for file in files %}<li>{{ file.name }}</li>{% endfor %}
+        </ul>
+        <a href="{% url 'upload' %}">Upload more files</a>
+    </body>
+</html>

@@ -1,17 +1,9 @@
 <div class="filepond-wrapper">
-    {% include "django/forms/widgets/input.html" %}
     {{ widget.filepond_config|json_script:widget.filepond_config_id }}
-    {% comment %} djlint:off {% endcomment %}
-    <script>
-        const pondConfig = JSON.parse(
-            document.getElementById("{{ widget.filepond_config_id }}").textContent
-        );
-        const fileInput = document.getElementById("{{ widget.attrs.id }}");
-
-        {% if widget.filepond_config.allowImagePreview %}
-            FilePond.registerPlugin(FilePondPluginImagePreview);
-        {% endif %}
-
-        FilePond.create(fileInput, pondConfig);
-</script>
+    <input type="file"
+           name="{{ widget.name }}"
+           id="{{ widget.attrs.id }}"
+           aria-describedby="{{ widget.attrs.aria_describedby }}"
+           class="filepond-input"
+           data-filepond-config-id="{{ widget.filepond_config_id }}" />
 </div>
