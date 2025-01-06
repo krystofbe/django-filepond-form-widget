@@ -16,12 +16,10 @@ build-backend = "hatchling.build"
 [tool.uv]
 dev-dependencies = [
     "pytest",
+    "pytest-django",
     "black",
     "flake8",
     "mypy",
     "twine",
     "djlint>=1.35.2",
 ]
-
-[dependency-groups]
-test = ["pytest>=8.3.4", "pytest-django>=4.9.0"]
