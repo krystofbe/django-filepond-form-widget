@@ -3,7 +3,7 @@ name = "django-filepond-form-widget"
 version = "0.1.1"
 description = "A Django form widget using FilePond with image preview support"
 authors = [{ name = "Krystof Beuermann", email = "krystof+django@blackbox.ms" }]
-dependencies = ["django>=3.2"]
+dependencies = ["django>=4.2"]
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.8"

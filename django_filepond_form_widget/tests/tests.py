@@ -10,17 +10,20 @@ class FilePondWidgetTest(TestCase):
 
     def test_default_media(self):
         """
-        Test that the default media includes only the essential FilePond CSS and JS.
+        Test that the default media includes the essential FilePond CSS and JS without locale files.
         """
         widget = FilePondWidget(attrs={"id": self.widget_id})
         expected_css = ["django_filepond_form_widget/css/filepond.min.css"]
-        expected_js = ["django_filepond_form_widget/js/filepond.min.js"]
+        expected_js = [
+            "django_filepond_form_widget/js/filepond.min.js",
+            "django_filepond_form_widget/js/init_filepond.js",
+        ]
         self.assertEqual(widget.media._css["all"], expected_css)
         self.assertEqual(widget.media._js, expected_js)
 
     def test_media_with_image_preview(self):
         """
-        Test that media includes image preview assets when allowImagePreview is True.
+        Test that media includes image preview assets when allowImagePreview is True without locale files.
         """
         config = {"allowImagePreview": True}
         widget = FilePondWidget(attrs={"id": self.widget_id}, config=config)
@@ -31,6 +34,7 @@ class FilePondWidgetTest(TestCase):
         expected_js = [
             "django_filepond_form_widget/js/filepond.min.js",
             "django_filepond_form_widget/js/filepond-plugin-image-preview.min.js",
+            "django_filepond_form_widget/js/init_filepond.js",
         ]
         self.assertEqual(widget.media._css["all"], expected_css)
         self.assertEqual(widget.media._js, expected_js)
@@ -46,11 +50,8 @@ class FilePondWidgetTest(TestCase):
         form = MyForm()
         rendered = form.as_p()
 
-        # Check that FilePond.registerPlugin is not present
-        self.assertNotIn("FilePond.registerPlugin", rendered)
-
-        # Check that FilePond.create is present
-        self.assertIn("FilePond.create(fileInput, pondConfig);", rendered)
+        # Check that allowImagePreview is false in the rendered JavaScript
+        self.assertNotIn('"allowImagePreview": true', rendered)
 
     def test_render_with_image_preview(self):
         """
@@ -64,11 +65,8 @@ class FilePondWidgetTest(TestCase):
         form = MyForm()
         rendered = form.as_p()
 
-        # Check that FilePond.registerPlugin is present
-        self.assertIn("FilePond.registerPlugin(FilePondPluginImagePreview);", rendered)
-
-        # Check that FilePond.create is present
-        self.assertIn("FilePond.create(fileInput, pondConfig);", rendered)
+        # Check that allowImagePreview is true in the rendered JavaScript
+        self.assertIn('"allowImagePreview": true', rendered)
 
     def test_filepond_config_context(self):
         """
@@ -80,7 +78,7 @@ class FilePondWidgetTest(TestCase):
 
         self.assertEqual(context["widget"]["filepond_config"], config)
         self.assertEqual(
-            context["widget"]["filepond_config_id"], f"filepond_{self.widget_id}"
+            context["widget"]["filepond_config_id"], f"filepond_config_{self.widget_id}"
         )
 
     def test_filepond_config_id_generation(self):
@@ -92,37 +90,43 @@ class FilePondWidgetTest(TestCase):
         context = widget.get_context("file", None, {"id": custom_id})
 
         self.assertEqual(
-            context["widget"]["filepond_config_id"], f"filepond_{custom_id}"
+            context["widget"]["filepond_config_id"], f"filepond_config_{custom_id}"
         )
 
     def test_partial_media_inclusion(self):
         """
-        Ensure that only specific media files are included based on partial config.
+        Ensure that only specific media files are included based on partial config without locale files.
         """
         config = {"allowImagePreview": False}
         widget = FilePondWidget(attrs={"id": self.widget_id}, config=config)
         expected_css = ["django_filepond_form_widget/css/filepond.min.css"]
-        expected_js = ["django_filepond_form_widget/js/filepond.min.js"]
+        expected_js = [
+            "django_filepond_form_widget/js/filepond.min.js",
+            "django_filepond_form_widget/js/init_filepond.js",
+        ]
         self.assertEqual(widget.media._css["all"], expected_css)
         self.assertEqual(widget.media._js, expected_js)
 
     def test_empty_config(self):
         """
-        Test that an empty config does not cause any issues and defaults are used.
+        Test that an empty config does not cause any issues and defaults are used without locale files.
         """
         widget = FilePondWidget(attrs={"id": self.widget_id}, config={})
         expected_css = ["django_filepond_form_widget/css/filepond.min.css"]
-        expected_js = ["django_filepond_form_widget/js/filepond.min.js"]
+        expected_js = [
+            "django_filepond_form_widget/js/filepond.min.js",
+            "django_filepond_form_widget/js/init_filepond.js",
+        ]
         self.assertEqual(widget.media._css["all"], expected_css)
         self.assertEqual(widget.media._js, expected_js)
 
     def test_multiple_config_options(self):
         """
-        Test that multiple configuration options are handled correctly.
+        Test that multiple configuration options are handled correctly without locale files.
         """
         config = {"allowImagePreview": True, "allowMultiple": True, "maxFiles": 5}
         widget = FilePondWidget(attrs={"id": self.widget_id}, config=config)
-        # Media should include image preview assets
+        # Media should include image preview assets without locale files
         expected_css = [
             "django_filepond_form_widget/css/filepond.min.css",
             "django_filepond_form_widget/css/filepond-plugin-image-preview.min.css",
@@ -130,6 +134,7 @@ class FilePondWidgetTest(TestCase):
         expected_js = [
             "django_filepond_form_widget/js/filepond.min.js",
             "django_filepond_form_widget/js/filepond-plugin-image-preview.min.js",
+            "django_filepond_form_widget/js/init_filepond.js",
         ]
         self.assertEqual(widget.media._css["all"], expected_css)
         self.assertEqual(widget.media._js, expected_js)
@@ -139,10 +144,22 @@ class FilePondWidgetTest(TestCase):
         form = MyForm()
         rendered = form.as_p()
 
-        # Check that FilePond.registerPlugin is present
-        self.assertIn("FilePond.registerPlugin(FilePondPluginImagePreview);", rendered)
-
         # Check that all configuration options are present in the rendered JavaScript
         self.assertIn('"allowImagePreview": true', rendered)
         self.assertIn('"allowMultiple": true', rendered)
         self.assertIn('"maxFiles": 5', rendered)
+
+    def test_language_selection(self):
+        """
+        Test that the widget correctly sets the locale based on the current language.
+        """
+        from django.utils.translation import activate
+
+        activate("fr-FR")
+        widget = FilePondWidget(attrs={"id": self.widget_id})
+
+        MyForm = type("MyForm", (forms.Form,), {"file": forms.FileField(widget=widget)})
+        form = MyForm()
+        rendered = form.as_p()
+
+        self.assertIn('data-locale="fr-fr"', rendered)

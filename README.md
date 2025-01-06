@@ -17,6 +17,7 @@ A Django form widget using FilePond with image preview support.
 - **Customization**: Configurable options to tailor the widget to your needs.
 - **Responsive Design**: Ensures a responsive and user-friendly interface.
 - **Simple Form Submission**: Focuses on regular file field submissions with forms, without handling server API endpoints.
+- **Language Selection**: Automatically sets the locale based on the current language, ensuring the FilePond interface matches the user's language preferences.
 - **Extensible**: Support for additional FilePond plugins planned for future releases.
 
 Note: This widget is designed to work with standard form submissions. While FilePond's server property can be configured for API endpoints, this is beyond the scope of this project which aims to provide a simple form widget implementation.

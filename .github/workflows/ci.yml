@@ -7,11 +7,37 @@ on:
   pull_request:
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+        django-version: ["4.2", "5.1"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.5.14"
+
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Install Dependencies
+        run: |
+          uv sync --all-extras --dev
+          uv pip install "django==${{ matrix.django-version }}"
+
+      - name: Run Tests
+        run: uv run pytest --verbose --color=yes
+
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
@@ -34,11 +60,11 @@ jobs:
           path: dist/
 
   release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Download Build Artifacts
         uses: actions/download-artifact@v3
