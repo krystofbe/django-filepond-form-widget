@@ -45,6 +45,8 @@ async function initializeFilePond() {
     const configElement = document.getElementById(
       input.dataset.filepondConfigId
     );
+    const langCode = input.dataset.locale || "en-us";
+    const normalizedLangCode = langCode.toUpperCase();
     const localeFile =
       localeFiles[normalizedLangCode] ||
       localeFiles[
