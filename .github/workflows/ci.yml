@@ -13,6 +13,8 @@ jobs:
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
         django-version: ["4.2", "5.1"]
+    env:
+      DJANGO_SETTINGS_MODULE: django_filepond_form_widget.tests.test_project.settings
 
     steps:
       - uses: actions/checkout@v4
