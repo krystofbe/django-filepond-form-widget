@@ -1,42 +1,42 @@
 async function initializeFilePond() {
   const localeFiles = {
-    "am-ET": "am-et.js",
-    "ar-AR": "ar-ar.js",
-    "az-AZ": "az-az.js",
-    "ca-CA": "ca-ca.js",
-    "cs-CZ": "cs-cz.js",
-    "da-DK": "da-dk.js",
-    "de-DE": "de-de.js",
-    "el-EL": "el-el.js",
-    "en-EN": "en-en.js",
-    "en-US": "en-en.js", // Map en-US to en-en.js
-    "es-ES": "es-es.js",
-    "fa-IR": "fa_ir.js", // Note the underscore
-    "fi-FI": "fi-fi.js",
-    "fr-FR": "fr-fr.js",
-    "he-HE": "he-he.js",
-    "hr-HR": "hr-hr.js",
-    "hu-HU": "hu-hu.js",
-    "id-ID": "id-id.js",
-    "it-IT": "it-it.js",
-    "ja-JA": "ja-ja.js",
-    "km-KM": "km-km.js",
-    "ko-KR": "ko-kr.js",
-    "lt-LT": "lt-lt.js",
-    "lv-LV": "lv-lv.js",
-    "no-NB": "no_nb.js", // Note the underscore
-    "nl-NL": "nl-nl.js",
-    "pl-PL": "pl-pl.js",
-    "pt-BR": "pt-br.js",
-    "pt-PT": "pt-pt.js",
-    "ro-RO": "ro-ro.js",
-    "sk-SK": "sk-sk.js",
-    "sv-SE": "sv_se.js", // Note the underscore
-    "tr-TR": "tr-tr.js",
-    "uk-UA": "uk-ua.js",
-    "vi-VI": "vi-vi.js",
-    "zh-CN": "zh-cn.js",
-    "zh-TW": "zh-tw.js",
+    "am-et": "am-et.js",
+    "ar-ar": "ar-ar.js",
+    "az-az": "az-az.js",
+    "ca-ca": "ca-ca.js",
+    "cs-cz": "cs-cz.js",
+    "da-dk": "da-dk.js",
+    "de-de": "de-de.js",
+    "el-el": "el-el.js",
+    "en-en": "en-en.js",
+    "en-us": "en-en.js", // map en-us to en-en.js
+    "es-es": "es-es.js",
+    "fa-ir": "fa_ir.js", // note the underscore
+    "fi-fi": "fi-fi.js",
+    "fr-fr": "fr-fr.js",
+    "he-he": "he-he.js",
+    "hr-hr": "hr-hr.js",
+    "hu-hu": "hu-hu.js",
+    "id-id": "id-id.js",
+    "it-it": "it-it.js",
+    "ja-ja": "ja-ja.js",
+    "km-km": "km-km.js",
+    "ko-kr": "ko-kr.js",
+    "lt-lt": "lt-lt.js",
+    "lv-lv": "lv-lv.js",
+    "no-nb": "no_nb.js", // note the underscore
+    "nl-nl": "nl-nl.js",
+    "pl-pl": "pl-pl.js",
+    "pt-br": "pt-br.js",
+    "pt-pt": "pt-pt.js",
+    "ro-ro": "ro-ro.js",
+    "sk-sk": "sk-sk.js",
+    "sv-se": "sv_se.js", // note the underscore
+    "tr-tr": "tr-tr.js",
+    "uk-ua": "uk-ua.js",
+    "vi-vi": "vi-vi.js",
+    "zh-cn": "zh-cn.js",
+    "zh-tw": "zh-tw.js",
   };
 
   document.querySelectorAll(".filepond-input").forEach(async function (input) {
@@ -46,7 +46,7 @@ async function initializeFilePond() {
       input.dataset.filepondConfigId
     );
     const langCode = input.dataset.locale || "en-us";
-    const normalizedLangCode = langCode.toUpperCase();
+    const normalizedLangCode = langCode.toLowerCase();
     const localeFile =
       localeFiles[normalizedLangCode] ||
       localeFiles[
