@@ -45,8 +45,14 @@ async function initializeFilePond() {
     const configElement = document.getElementById(
       input.dataset.filepondConfigId
     );
-    const langCode = input.dataset.locale || "en-us";
-    const localeFile = localeFiles[langCode] || "en-en.js";
+    const localeFile =
+      localeFiles[normalizedLangCode] ||
+      localeFiles[
+        Object.keys(localeFiles).find((key) =>
+          key.startsWith(normalizedLangCode.split("-")[0])
+        )
+      ] ||
+      "en-en.js";
 
     try {
       const module = await import(`../locale/${localeFile}`);

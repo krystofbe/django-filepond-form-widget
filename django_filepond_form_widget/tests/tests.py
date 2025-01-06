@@ -163,3 +163,31 @@ class FilePondWidgetTest(TestCase):
         rendered = form.as_p()
 
         self.assertIn('data-locale="fr-fr"', rendered)
+
+    def test_short_language_code(self):
+        """
+        Test that the widget correctly handles short language codes (e.g. 'de' instead of 'de-DE').
+        """
+        from django.utils.translation import activate
+
+        # Test with short German code
+        activate("de")
+        widget = FilePondWidget(attrs={"id": self.widget_id})
+
+        MyForm = type("MyForm", (forms.Form,), {"file": forms.FileField(widget=widget)})
+        form = MyForm()
+        rendered = form.as_p()
+
+        # Verify that the short code is passed correctly to the template
+        self.assertIn('data-locale="de"', rendered)
+
+        # Test with short Chinese code
+        activate("zh")
+        widget = FilePondWidget(attrs={"id": self.widget_id})
+
+        MyForm = type("MyForm", (forms.Form,), {"file": forms.FileField(widget=widget)})
+        form = MyForm()
+        rendered = form.as_p()
+
+        # Verify that the short code is passed correctly to the template
+        self.assertIn('data-locale="zh"', rendered)
