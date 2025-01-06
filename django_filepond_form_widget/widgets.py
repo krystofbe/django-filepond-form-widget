@@ -1,5 +1,4 @@
 from django import forms
-from django.utils.translation import get_language
 
 
 class FilePondWidget(forms.ClearableFileInput):
@@ -33,6 +32,8 @@ class FilePondWidget(forms.ClearableFileInput):
         return forms.Media(css=css, js=js)
 
     def get_context(self, name, value, attrs):
+        from django.utils.translation import get_language
+
         context = super().get_context(name, value, attrs)
         context["widget"]["filepond_config"] = self.config
         context["widget"]["locale"] = get_language()
