@@ -230,3 +230,45 @@ class FilePondWidgetTest(TestCase):
         self.assertIn('"allowFileSizeValidation": true', rendered)
         self.assertIn('"maxFileSize": "5MB"', rendered)
         self.assertIn('"maxTotalFileSize": "10MB"', rendered)
+
+    def test_media_with_image_resize(self):
+        """
+        Test that media includes image resize assets when allowImageResize is True.
+        """
+        config = {"allowImageResize": True}
+        widget = FilePondWidget(attrs={"id": self.widget_id}, config=config)
+        expected_css = [
+            "django_filepond_form_widget/css/filepond.min.css",
+        ]
+        expected_js = [
+            "django_filepond_form_widget/js/filepond.min.js",
+            "django_filepond_form_widget/js/filepond-plugin-image-resize.min.js",
+            "django_filepond_form_widget/js/init_filepond.js",
+        ]
+        self.assertEqual(widget.media._css["all"], expected_css)
+        self.assertEqual(widget.media._js, expected_js)
+
+    def test_render_with_image_resize(self):
+        """
+        Test rendering the widget with image resize enabled.
+        """
+        config = {
+            "allowImageResize": True,
+            "imageResizeTargetWidth": 200,
+            "imageResizeTargetHeight": 200,
+            "imageResizeMode": "cover",
+            "imageResizeUpscale": False,
+        }
+        widget = FilePondWidget(attrs={"id": self.widget_id}, config=config)
+
+        # Dynamically create a form class with the widget
+        MyForm = type("MyForm", (forms.Form,), {"file": forms.FileField(widget=widget)})
+        form = MyForm()
+        rendered = form.as_p()
+
+        # Check that image resize options are present in the rendered JavaScript
+        self.assertIn('"allowImageResize": true', rendered)
+        self.assertIn('"imageResizeTargetWidth": 200', rendered)
+        self.assertIn('"imageResizeTargetHeight": 200', rendered)
+        self.assertIn('"imageResizeMode": "cover"', rendered)
+        self.assertIn('"imageResizeUpscale": false', rendered)

@@ -39,3 +39,19 @@ class ExampleForm(forms.Form):
         ),
         required=False,
     )
+    image_with_resize_and_validation = forms.FileField(
+        widget=FilePondWidget(
+            config={
+                "allowImagePreview": True,
+                "allowMultiple": False,
+                "allowFileSizeValidation": True,
+                "maxFileSize": "2MB",
+                "allowImageResize": True,
+                "imageResizeTargetWidth": 200,
+                "imageResizeTargetHeight": 200,
+                "imageResizeMode": "cover",
+                "imageResizeUpscale": False,
+            }
+        ),
+        required=False,
+    )

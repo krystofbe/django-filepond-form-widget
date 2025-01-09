@@ -98,6 +98,15 @@ To enable file size validation, set the `allowFileSizeValidation` option to `Tru
 -   `labelMaxTotalFileSizeExceeded`: Custom message when total size exceeds `maxTotalFileSize`.
 -   `labelMaxTotalFileSize`: Custom message showing the max total file size.
 
+### Image Resize
+
+To enable image resizing, set the `allowImageResize` option to `True` in the widget's `config`. You can also configure the following options:
+
+- `imageResizeTargetWidth`: The target width of the resized image in pixels.
+- `imageResizeTargetHeight`: The target height of the resized image in pixels.
+- `imageResizeMode`: The resizing mode ('cover', 'contain', or 'force').
+- `imageResizeUpscale`: Whether to upscale images smaller than the target size (true or false).
+- 
 Example:
 
 ```
