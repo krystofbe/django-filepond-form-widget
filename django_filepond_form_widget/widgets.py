@@ -4,6 +4,7 @@ from django.utils.translation import get_language
 
 class FilePondWidget(forms.ClearableFileInput):
     template_name = "django_filepond_form_widget/filepond_widget.html"
+    allow_multiple_selected = False
 
     def __init__(self, attrs=None, config=None):
         # app .filepond-input to the widget attrs class
