@@ -75,6 +75,10 @@ async function initializeFilePond() {
           FilePond.registerPlugin(FilePondPluginImagePreview);
         }
 
+        if (pondConfig.allowFileSizeValidation) {
+          FilePond.registerPlugin(FilePondPluginFileValidateSize);
+        }
+
         FilePond.create(input, pondConfig);
         input._filePondInitialized = true;
       } catch (error) {

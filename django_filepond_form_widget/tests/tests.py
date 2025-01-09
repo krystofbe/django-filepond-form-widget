@@ -191,3 +191,42 @@ class FilePondWidgetTest(TestCase):
 
         # Verify that the short code is passed correctly to the template
         self.assertIn('data-locale="zh"', rendered)
+
+    def test_media_with_file_size_validation(self):
+        """
+        Test that media includes file size validation assets when allowFileSizeValidation is True.
+        """
+        config = {"allowFileSizeValidation": True}
+        widget = FilePondWidget(attrs={"id": self.widget_id}, config=config)
+        expected_css = [
+            "django_filepond_form_widget/css/filepond.min.css",
+            "django_filepond_form_widget/css/filepond-plugin-file-validate-size.min.css",
+        ]
+        expected_js = [
+            "django_filepond_form_widget/js/filepond.min.js",
+            "django_filepond_form_widget/js/filepond-plugin-file-validate-size.min.js",
+            "django_filepond_form_widget/js/init_filepond.js",
+        ]
+        self.assertEqual(widget.media._css["all"], expected_css)
+        self.assertEqual(widget.media._js, expected_js)
+
+    def test_render_with_file_size_validation(self):
+        """
+        Test rendering the widget with file size validation enabled.
+        """
+        config = {
+            "allowFileSizeValidation": True,
+            "maxFileSize": "5MB",
+            "maxTotalFileSize": "10MB",
+        }
+        widget = FilePondWidget(attrs={"id": self.widget_id}, config=config)
+
+        # Dynamically create a form class with the widget
+        MyForm = type("MyForm", (forms.Form,), {"file": forms.FileField(widget=widget)})
+        form = MyForm()
+        rendered = form.as_p()
+
+        # Check that file size validation options are present in the rendered JavaScript
+        self.assertIn('"allowFileSizeValidation": true', rendered)
+        self.assertIn('"maxFileSize": "5MB"', rendered)
+        self.assertIn('"maxTotalFileSize": "10MB"', rendered)

@@ -86,6 +86,37 @@ def upload_view(request):
         form = ExampleForm()
     return render(request, "example_app/upload.html", {"form": form})
 ```
+### File Size Validation
+
+To enable file size validation, set the `allowFileSizeValidation` option to `True` in the widget's `config`. You can also configure the following options:
+
+-   `minFileSize`: The minimum size of a file (e.g., "1KB", "2MB").
+-   `maxFileSize`: The maximum size of a file (e.g., "5MB", "10MB").
+-   `maxTotalFileSize`: The maximum total size of all files (e.g., "10MB", "20MB").
+-   `labelMaxFileSizeExceeded`: Custom message when a file exceeds `maxFileSize`.
+-   `labelMaxFileSize`: Custom message showing the max file size.
+-   `labelMaxTotalFileSizeExceeded`: Custom message when total size exceeds `maxTotalFileSize`.
+-   `labelMaxTotalFileSize`: Custom message showing the max total file size.
+
+Example:
+
+```
+from django import forms
+from django_filepond_form_widget.widgets import FilePondWidget
+
+class ExampleForm(forms.Form):
+    image = forms.FileField(
+        widget=FilePondWidget(
+            config={
+                "allowImagePreview": True,
+                "allowMultiple": False,
+                "allowFileSizeValidation": True,
+                "maxFileSize": "5MB",
+                "maxTotalFileSize": "10MB",
+            }
+        )
+    )
+```
 
 ## Example
 An example project is provided to demonstrate how to integrate and run the widget.

@@ -6,20 +6,14 @@ def upload_view(request):
     if request.method == "POST":
         form = ExampleForm(request.POST, request.FILES)
         if form.is_valid():
-            # Retrieve files from each field
-            image_single = request.FILES.get("image_single")
-            image_multiple = request.FILES.getlist("image_multiple")
-            file_single = request.FILES.get("file_single")
-            file_multiple = request.FILES.getlist("file_multiple")
-
-            # Combine all uploaded files into a single list
             uploaded_files = []
-            if image_single:
-                uploaded_files.append(image_single)
-            uploaded_files.extend(image_multiple)
-            if file_single:
-                uploaded_files.append(file_single)
-            uploaded_files.extend(file_multiple)
+            for field_name in form.fields:
+                if field_name in request.FILES:
+                    field_files = request.FILES.getlist(field_name)
+                    if isinstance(field_files, list):
+                        uploaded_files.extend(field_files)
+                    else:
+                        uploaded_files.append(field_files)
 
             return render(
                 request, "example_app/success.html", {"files": uploaded_files}
