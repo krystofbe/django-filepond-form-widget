@@ -272,3 +272,20 @@ class FilePondWidgetTest(TestCase):
         self.assertIn('"imageResizeTargetHeight": 200', rendered)
         self.assertIn('"imageResizeMode": "cover"', rendered)
         self.assertIn('"imageResizeUpscale": false', rendered)
+
+    def test_allow_multiple_selected_attribute(self):
+        """
+        Test that the allow_multiple_selected attribute is set correctly when allowMultiple is True.
+        """
+        widget = FilePondWidget(
+            attrs={"id": self.widget_id}, config={"allowMultiple": True}
+        )
+        self.assertTrue(widget.allow_multiple_selected)
+
+        widget = FilePondWidget(
+            attrs={"id": self.widget_id}, config={"allowMultiple": False}
+        )
+        self.assertFalse(widget.allow_multiple_selected)
+
+        widget = FilePondWidget(attrs={"id": self.widget_id}, config={})
+        self.assertFalse(widget.allow_multiple_selected)

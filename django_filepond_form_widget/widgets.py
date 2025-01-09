@@ -15,6 +15,9 @@ class FilePondWidget(forms.ClearableFileInput):
         self.config = config or {}
         self.config["storeAsFile"] = True
 
+        if self.config.get("allowMultiple", False):
+            self.allow_multiple_selected = True
+
     @property
     def media(self):
         css = {"all": ["django_filepond_form_widget/css/filepond.min.css"]}

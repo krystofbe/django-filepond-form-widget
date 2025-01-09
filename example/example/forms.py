@@ -2,6 +2,24 @@ from django import forms
 from django_filepond_form_widget.widgets import FilePondWidget
 
 
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = single_file_clean(data, initial)
+        return result
+
+
 class ExampleForm(forms.Form):
     image_single = forms.FileField(
         widget=FilePondWidget(
@@ -9,7 +27,7 @@ class ExampleForm(forms.Form):
         ),
         required=False,
     )
-    image_multiple = forms.FileField(
+    image_multiple = MultipleFileField(
         widget=FilePondWidget(
             config={"allowImagePreview": True, "allowMultiple": True}
         ),
@@ -21,7 +39,7 @@ class ExampleForm(forms.Form):
         ),
         required=False,
     )
-    file_multiple = forms.FileField(
+    file_multiple = MultipleFileField(
         widget=FilePondWidget(
             config={"allowImagePreview": False, "allowMultiple": True}
         ),
