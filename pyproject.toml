@@ -1,5 +1,6 @@
 [project]
 name = "django-filepond-form-widget"
+dynamic = ["version"]
 version = "0.2.1"
 description = "A Django form widget using FilePond with image preview support"
 authors = [{ name = "Krystof Beuermann", email = "krystof+django@blackbox.ms" }]
@@ -23,3 +24,6 @@ dev-dependencies = [
     "twine",
     "djlint>=1.35.2",
 ]
+
+[tool.hatch.version]
+source = "git"
