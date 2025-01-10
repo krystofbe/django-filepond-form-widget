@@ -33,9 +33,6 @@ class FilePondWidget(forms.ClearableFileInput):
             )
 
         if self.config.get("allowFileSizeValidation"):
-            css["all"].append(
-                "django_filepond_form_widget/css/filepond-plugin-file-validate-size.min.css"
-            )
             js.append(
                 "django_filepond_form_widget/js/filepond-plugin-file-validate-size.min.js"
             )

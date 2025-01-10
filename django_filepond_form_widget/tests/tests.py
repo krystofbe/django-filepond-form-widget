@@ -200,7 +200,6 @@ class FilePondWidgetTest(TestCase):
         widget = FilePondWidget(attrs={"id": self.widget_id}, config=config)
         expected_css = [
             "django_filepond_form_widget/css/filepond.min.css",
-            "django_filepond_form_widget/css/filepond-plugin-file-validate-size.min.css",
         ]
         expected_js = [
             "django_filepond_form_widget/js/filepond.min.js",
