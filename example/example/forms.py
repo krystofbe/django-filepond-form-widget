@@ -73,3 +73,19 @@ class ExampleForm(forms.Form):
         ),
         required=False,
     )
+    file_with_type_validation = forms.FileField(
+        widget=FilePondWidget(
+            config={
+                "allowFileTypeValidation": True,
+                "acceptedFileTypes": ["image/png", "image/jpeg", "application/pdf"],
+                "labelFileTypeNotAllowed": "Invalid file type. Please upload a PNG, JPEG, or PDF.",
+                "fileValidateTypeLabelExpectedTypes": "Expects {allButLastType} or {lastType}",
+                "fileValidateTypeLabelExpectedTypesMap": {
+                    "image/jpeg": ".jpg",
+                    "image/png": ".png",
+                    "application/pdf": ".pdf",
+                },
+            }
+        ),
+        required=False,
+    )

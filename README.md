@@ -123,7 +123,18 @@ To enable image resizing, set the `allowImageResize` option to `True` in the wid
 - `imageResizeTargetHeight`: The target height of the resized image in pixels.
 - `imageResizeMode`: The resizing mode ('cover', 'contain', or 'force').
 - `imageResizeUpscale`: Whether to upscale images smaller than the target size (true or false).
-- 
+
+### File Type Validation
+
+To enable file type validation, set the `allowFileTypeValidation` option to `True` in the widget's `config`. You can also configure the following options:
+
+-   `acceptedFileTypes`: An array of accepted file types. Can be MIME types or wildcards. For example, `['image/*']` will accept all images, and `['image/png', 'image/jpeg']` will only accept PNGs and JPEGs.
+-   `labelFileTypeNotAllowed`: Custom message shown when an invalid file is added.
+-   `fileValidateTypeLabelExpectedTypes`: Custom message shown to indicate the allowed file types. Available placeholders are `{allTypes}`, `{allButLastType}`, and `{lastType}`.
+-   `fileValidateTypeLabelExpectedTypesMap`: Allows mapping file types to more visually appealing labels. For example, `{ 'image/jpeg': '.jpg' }` will show `.jpg` in the expected types label. Set to `null` to hide a type from the label.
+
+
+
 Example:
 
 ```

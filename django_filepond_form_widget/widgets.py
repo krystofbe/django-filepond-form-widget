@@ -42,6 +42,11 @@ class FilePondWidget(forms.ClearableFileInput):
                 "django_filepond_form_widget/js/filepond-plugin-image-resize.min.js"
             )
 
+        if self.config.get("allowFileTypeValidation"):
+            js.append(
+                "django_filepond_form_widget/js/filepond-plugin-file-validate-type.min.js"
+            )
+
         js.append("django_filepond_form_widget/js/init_filepond.js")
 
         return forms.Media(css=css, js=js)
